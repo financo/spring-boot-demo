@@ -12,6 +12,9 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.SetJoin;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -62,4 +65,19 @@ public class UserInfoService extends BaseService<UserInfo, java.lang.Long> imple
 			}
 		}, pageable);
 	}
+	
+	/*
+	 * example匹配查询
+	 */
+	public Page<UserInfo> findByExample(String username, String loginId, String org, String role ,Pageable pageable){
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUserName(username);
+		userInfo.setLoginId(loginId);
+		ExampleMatcher matcher = ExampleMatcher.matching()
+				.withMatcher("userName", GenericPropertyMatchers.contains())
+				.withMatcher("loginId", GenericPropertyMatchers.contains());
+		Example<UserInfo> example = Example.of(userInfo, matcher);
+		return userInfoRepository.findAll(example,pageable);
+	}
+	
 }

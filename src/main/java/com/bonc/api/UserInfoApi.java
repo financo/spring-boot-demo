@@ -55,7 +55,7 @@ public class UserInfoApi {
          *  根据username loginId org role模糊查询并分页
          */
         @RequestMapping(value="/page",method = RequestMethod.GET)  
-        public Page<UserInfo> getAllUserInfosPageable(
+        public Page<UserInfo> findUserInfosfindByCondition(
         		@RequestParam(value = "userName", defaultValue = "") String username,
         		@RequestParam(value = "loginId", defaultValue = "") String loginId,
         		@RequestParam(value = "org", defaultValue = "") String org,
@@ -118,4 +118,16 @@ public class UserInfoApi {
         public void deleteUserInfo(@PathVariable("id") Long id) {  
             userInfoService.delete(id);  
         }  
+        
+        /*
+         * 通过  pathVariable获取用户id
+         * 删除id的用户
+         */ 
+        @RequestMapping(value="/test", method = RequestMethod.GET)  
+        public void test() { 
+        	int page=1,size=10;
+            Sort sort = new Sort(Direction.DESC, "id");
+            Pageable pageable = new PageRequest(page, size, sort);
+            userInfoService.findByExample("wang", "", "", "", pageable);  
+        } 
 } 
