@@ -23,6 +23,7 @@ public class OrgType implements Serializable {
 	@Id
     @GeneratedValue
 	private java.lang.String id;
+	
 	@Column(name="ORGTYPE_NAME", length=255,nullable=false, unique=true)
 	private java.lang.String orgtypeName;
 	

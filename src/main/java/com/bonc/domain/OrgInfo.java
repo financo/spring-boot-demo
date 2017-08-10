@@ -24,32 +24,46 @@ public class OrgInfo implements Serializable {
 	@Id
 	@GeneratedValue
 	private java.lang.String id;
+	
 	@Column(name="PATH", length=255, nullable=false)
 	private java.lang.String path;
+	
 	@Column(name="ORG_NAME", length=255, nullable=false)
 	private java.lang.String orgName;
-	/*@Column(name="ORGTYPE_ID", length=255, nullable=false)
-	private java.lang.String orgTypeId;*/
 	
 	@ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)  
     @JoinColumn(name = "ORGTYPE_ID") 
 	private OrgType orgType;
-	@Column(name="ORGINFO_ID", length=255, nullable=false)
-	private java.lang.String orgInfoId;
+	
+	@ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=true)
+	@JoinColumn(name = "ORGINFO_ID")
+	private OrgInfo orgInfo;
+	
 	@Column(name="MEMO", length=255, nullable=false)
 	private java.lang.String memo;
+	
 	@Column(name="CREATE_TIME", length=255, nullable=false)
 	private java.util.Date createTime ;
+	
 	@Column(name="CREATE_USER", length=255, nullable=false)
 	private java.lang.String creatUser;
+	
 	@Column(name="ORD", length=255, nullable=false)
 	private java.lang.Long ord;
+	
 	@Column(name="STATUS", length=255, nullable=false)
 	private java.lang.Long status;
+	
 	@ManyToMany(mappedBy = "orgs")
 	private Set<UserInfo> users = new HashSet<UserInfo>();
 	
 	
+	public OrgInfo getOrgInfo() {
+		return orgInfo;
+	}
+	public void setOrgInfo(OrgInfo orgInfo) {
+		this.orgInfo = orgInfo;
+	}
 	public Set<UserInfo> getUsers() {
 		return users;
 	}
@@ -82,18 +96,6 @@ public class OrgInfo implements Serializable {
 	}
 	public void setOrgName(java.lang.String orgName) {
 		this.orgName = orgName;
-	}
-/*	public java.lang.String getOrgTypeId() {
-		return orgTypeId;
-	}
-	public void setOrgTypeId(java.lang.String orgTypeId) {
-		this.orgTypeId = orgTypeId;
-	}*/
-	public java.lang.String getOrgInfoId() {
-		return orgInfoId;
-	}
-	public void setOrgInfoId(java.lang.String orgInfoId) {
-		this.orgInfoId = orgInfoId;
 	}
 	public java.lang.String getMemo() {
 		return memo;

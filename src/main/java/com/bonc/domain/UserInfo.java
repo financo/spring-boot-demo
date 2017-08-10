@@ -64,11 +64,8 @@ public class UserInfo implements Serializable {
 	@Column(name="CREATE_USER", length=30, nullable=true)
 	private java.lang.String creatUser;
 	
-	@Column(name="SEX_ID")
-	private java.lang.Long sexId;
-	
 	@ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)  
-    @JoinColumn(name = "SEX_ID", insertable=false, updatable=false)  
+    @JoinColumn(name = "SEX_ID")  
     private Sex sex;
 	
 	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
@@ -114,12 +111,6 @@ public class UserInfo implements Serializable {
 	}
 	public void setUserName(java.lang.String userName) {
 		this.userName = userName;
-	}
-	public java.lang.Long getSexId() {
-		return sexId;
-	}
-	public void setSexId(java.lang.Long sexId) {
-		this.sexId = sexId;
 	}
 	public java.lang.String getLoginId() {
 		return loginId;

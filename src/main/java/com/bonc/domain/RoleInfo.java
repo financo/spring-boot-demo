@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -21,16 +24,23 @@ public class RoleInfo implements Serializable {
 	@Id
     @GeneratedValue
 	private java.lang.Long id;
+	
 	@Column(name="ROLE_CODE", length=255,nullable=true)
 	private java.lang.String roleCode;
+	
 	@Column(name="ROLE_NAME", length=255,nullable=true)
 	private java.lang.String roleName;
+	
 	@Column(name="CREATE_TIME", length=255,nullable=true)
 	private java.util.Date createTime ;
+	
 	@Column(name="CREATE_USER", length=255,nullable=true)
 	private java.lang.String creatUser;
-	@Column(name="ROLEINFO_ID", length=255,nullable=true)
-	private java.lang.String roleId;
+	
+	@ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=true)
+	@JoinColumn(name = "ROLEINFO_ID")
+	private RoleInfo roleInfo;
+	
 	@ManyToMany(mappedBy = "roles")
 	private Set<UserInfo> users = new HashSet<UserInfo>();
 	
@@ -74,11 +84,11 @@ public class RoleInfo implements Serializable {
 	public void setCreatUser(java.lang.String creatUser) {
 		this.creatUser = creatUser;
 	}
-	public java.lang.String getRoleId() {
-		return roleId;
+	public RoleInfo getRoleInfo() {
+		return roleInfo;
 	}
-	public void setRoleId(java.lang.String roleId) {
-		this.roleId = roleId;
+	public void setRoleInfo(RoleInfo roleInfo) {
+		this.roleInfo = roleInfo;
 	}
 	
 }
