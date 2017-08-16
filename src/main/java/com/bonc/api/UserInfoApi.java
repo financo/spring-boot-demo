@@ -93,7 +93,8 @@ public class UserInfoApi {
                 @ApiImplicitParam(name = "userInfo", value = "用户详细实体userInfo", required = true, dataType = "UserInfo")
         })
         @RequestMapping(method = RequestMethod.POST)  
-        public UserInfo createUserInfo(@Valid @RequestBody UserInfo userInfo){  
+        public UserInfo createUserInfo(@Valid @RequestBody UserInfo userInfo){ 
+        	userInfo.setId(Long.MAX_VALUE);
             return userInfoService.save(userInfo);  
         } 
         

@@ -23,7 +23,7 @@ public class CrossOriginFilter extends OncePerRequestFilter{
         response.addHeader("Access-Control-Allow-Origin", "http://localhost:3001");  //此优先级高于@CrossOrigin配置
         System.out.println("Filtering................");
         response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-        response.addHeader("Access-Control-Allow-Headers", "x-requested-with");
+        response.addHeader("Access-Control-Allow-Headers", "x-requested-with,Content-Type");
         response.addHeader("Access-Control-Max-Age", "3600");
         response.addHeader("Access-Control-Allow-Credentials", "true");
         filterChain.doFilter(request, response);

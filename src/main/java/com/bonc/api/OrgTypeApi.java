@@ -103,7 +103,8 @@ public class OrgTypeApi {
                 @ApiImplicitParam(name = "orgType", value = "组织机构类型详细实体orgType", required = true, dataType = "OrgType")
         })
         @RequestMapping(method = RequestMethod.POST)  
-        public OrgType createOrgType(@Valid @RequestBody OrgType orgType){  
+        public OrgType createOrgType(@Valid @RequestBody OrgType orgType){ 
+        	orgType.setId(Long.MAX_VALUE);
             return orgTypeService.save(orgType);  
         }
          

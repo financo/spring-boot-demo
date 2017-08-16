@@ -3,6 +3,7 @@ package com.bonc.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,18 +23,15 @@ public class OrgType implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
     @GeneratedValue
-	private java.lang.String id;
+	private java.lang.Long id;
 	
 	@Column(name="ORGTYPE_NAME", length=255,nullable=false, unique=true)
 	private java.lang.String orgtypeName;
 	
-	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY,mappedBy = "orgType")  
-    private List<OrgInfo> orgInfos = new ArrayList<OrgInfo>();
-	
-	public java.lang.String getId() {
+	public java.lang.Long getId() {
 		return id;
 	}
-	public void setId(java.lang.String id) {
+	public void setId(java.lang.Long id) {
 		this.id = id;
 	}
 	public java.lang.String getOrgtypeName() {
@@ -41,13 +39,6 @@ public class OrgType implements Serializable {
 	}
 	public void setOrgtypeName(java.lang.String orgtypeName) {
 		this.orgtypeName = orgtypeName;
-	}
-	
-	public List<OrgInfo> getOrgInfos() {
-		return orgInfos;
-	}
-	public void setOrgInfos(List<OrgInfo> orgInfos) {
-		this.orgInfos = orgInfos;
 	}
 	public OrgType() {
 		super();

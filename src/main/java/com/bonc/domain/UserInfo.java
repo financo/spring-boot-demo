@@ -64,7 +64,7 @@ public class UserInfo implements Serializable {
 	@Column(name="CREATE_USER", length=30, nullable=true)
 	private java.lang.String creatUser;
 	
-	@ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)  
+	@ManyToOne(cascade={CascadeType.PERSIST},optional=true)  
     @JoinColumn(name = "SEX_ID")  
     private Sex sex;
 	

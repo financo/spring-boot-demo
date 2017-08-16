@@ -37,7 +37,7 @@ public class RoleInfo implements Serializable {
 	@Column(name="CREATE_USER", length=255,nullable=true)
 	private java.lang.String creatUser;
 	
-	@ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=true)
+	@ManyToOne(cascade={CascadeType.PERSIST},optional=true)
 	@JoinColumn(name = "ROLEINFO_ID")
 	private RoleInfo roleInfo;
 	

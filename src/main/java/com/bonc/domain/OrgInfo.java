@@ -23,7 +23,7 @@ public class OrgInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue
-	private java.lang.String id;
+	private java.lang.Long id;
 	
 	@Column(name="PATH", length=255, nullable=false)
 	private java.lang.String path;
@@ -31,11 +31,11 @@ public class OrgInfo implements Serializable {
 	@Column(name="ORG_NAME", length=255, nullable=false)
 	private java.lang.String orgName;
 	
-	@ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)  
+	@ManyToOne(cascade={CascadeType.PERSIST},optional=true)  
     @JoinColumn(name = "ORGTYPE_ID") 
 	private OrgType orgType;
 	
-	@ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=true)
+	@ManyToOne(cascade={CascadeType.PERSIST},optional=true)
 	@JoinColumn(name = "ORGINFO_ID")
 	private OrgInfo orgInfo;
 	
@@ -79,10 +79,10 @@ public class OrgInfo implements Serializable {
 	public OrgInfo() {
 		super();
 	}
-	public java.lang.String getId() {
+	public java.lang.Long getId() {
 		return id;
 	}
-	public void setId(java.lang.String id) {
+	public void setId(java.lang.Long id) {
 		this.id = id;
 	}
 	public java.lang.String getPath() {

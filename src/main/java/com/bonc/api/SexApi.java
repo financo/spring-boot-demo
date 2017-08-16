@@ -78,7 +78,7 @@ public class SexApi {
       /*
        * 根据id更新性别对象接口
        */
-      @ApiOperation(value="更新性别信息", notes="根据url的id来指定更新对象，并根据传过来的roleInfo信息来更新性别详细信息")
+      @ApiOperation(value="更新性别信息", notes="根据url的id来指定更新对象，并根据传过来的sex信息来更新性别详细信息")
       @ApiImplicitParams({
               @ApiImplicitParam(name = "id", value = "性别ID", required = true, dataType = "Long"),
               @ApiImplicitParam(name = "sex", value = "角色详细实体sex", required = true, dataType = "Sex")
@@ -103,7 +103,8 @@ public class SexApi {
               @ApiImplicitParam(name = "sex", value = "性别详细实体sex", required = true, dataType = "Sex")
       })
       @RequestMapping(method = RequestMethod.POST)  
-      public Sex createSex(@Valid @RequestBody Sex sex){  
+      public Sex createSex(@Valid @RequestBody Sex sex){ 
+    	  sex.setId(Long.MAX_VALUE);
           return sexService.save(sex);  
       }
       

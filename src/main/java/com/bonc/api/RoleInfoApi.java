@@ -102,7 +102,8 @@ public class RoleInfoApi {
                 @ApiImplicitParam(name = "roleInfo", value = "用户详细实体roleInfo", required = true, dataType = "RoleInfo")
         })
         @RequestMapping(method = RequestMethod.POST)  
-        public RoleInfo createRoleInfo(@Valid @RequestBody RoleInfo roleInfo){  
+        public RoleInfo createRoleInfo(@Valid @RequestBody RoleInfo roleInfo){
+        	roleInfo.setId(Long.MAX_VALUE);
             return roleInfoService.save(roleInfo);  
         } 
          

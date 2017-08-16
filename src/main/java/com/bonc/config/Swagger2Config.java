@@ -27,8 +27,11 @@ public class Swagger2Config {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("security 用户管理 RESTful APIs")
+                .title("security RESTful APIs")
+                .description("This is to show api description")
                 .version("0.1")
+                .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
+                .termsOfServiceUrl("")
                 .build();
     }
 }

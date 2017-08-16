@@ -103,6 +103,7 @@ public class OrgInfoApi {
       })
       @RequestMapping(method = RequestMethod.POST)  
       public OrgInfo createOrgInfo(@Valid @RequestBody OrgInfo orgInfo){  
+    	  orgInfo.setId(Long.MAX_VALUE);
           return orgInfoService.save(orgInfo);  
       } 
        
