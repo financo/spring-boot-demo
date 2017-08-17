@@ -132,8 +132,7 @@ public class UserInfoApi {
         }  
         
         /*
-         * 通过  pathVariable获取用户id
-         * 删除id的用户
+         * test1
          */ 
         @RequestMapping(value="/test", method = RequestMethod.GET)  
         public void test() { 
@@ -142,4 +141,22 @@ public class UserInfoApi {
             Pageable pageable = new PageRequest(page, size, sort);
             userInfoService.findByExample("wang", "", "", "", pageable);  
         } 
+        /*
+         * test2
+         */ 
+        @RequestMapping(value="/test2", method = RequestMethod.GET)  
+        public UserInfo test2() { 
+            return userInfoService.test();
+        }
+        
+        /*
+         * test3
+         */ 
+        @RequestMapping(value="/test3", method = RequestMethod.GET)  
+        public UserInfo test3() { 
+            UserInfo uInfo = userInfoService.testCommon();
+            return uInfo;
+        }
+        
+        
 } 

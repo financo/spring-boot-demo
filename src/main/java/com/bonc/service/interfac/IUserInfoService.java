@@ -9,5 +9,6 @@ public interface IUserInfoService extends IBaseService<UserInfo, java.lang.Long>
 	
 	public Page<UserInfo> findByCondition(final String username, final String loginId, final String org, final String role ,Pageable pageable);
 	public Page<UserInfo> findByExample(String username, String loginId, String org, String role ,Pageable pageable);
-
+	public UserInfo test();
+	public UserInfo testCommon();
 }
