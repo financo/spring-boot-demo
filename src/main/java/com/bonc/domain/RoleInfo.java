@@ -1,8 +1,6 @@
 package com.bonc.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,14 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity 
 @Table(name = "test_role") 
-@JsonIgnoreProperties(value={"users"})
 public class RoleInfo implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -41,17 +36,8 @@ public class RoleInfo implements Serializable {
 	@JoinColumn(name = "ROLEINFO_ID")
 	private RoleInfo roleInfo;
 	
-	@ManyToMany(mappedBy = "roles")
-	private List<UserInfo> users = new ArrayList<UserInfo>();
-	
 	public RoleInfo() {
 		super();
-	}
-	public List<UserInfo> getUsers() {
-		return users;
-	}
-	public void setUsers(List<UserInfo> users) {
-		this.users = users;
 	}
 	public java.lang.Long getId() {
 		return id;

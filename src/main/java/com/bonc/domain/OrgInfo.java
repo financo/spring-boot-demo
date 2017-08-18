@@ -1,8 +1,6 @@
 package com.bonc.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,14 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity 
 @Table(name="test_org")
-@JsonIgnoreProperties(value={"users"})
 public class OrgInfo implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -54,9 +49,6 @@ public class OrgInfo implements Serializable {
 	@Column(name="STATUS", length=255, nullable=false)
 	private java.lang.Long status;
 	
-	@ManyToMany(mappedBy = "orgs")
-	private List<UserInfo> users = new ArrayList<UserInfo>();
-	
 	public OrgInfo() {
 		super();
 	}
@@ -65,12 +57,6 @@ public class OrgInfo implements Serializable {
 	}
 	public void setOrgInfo(OrgInfo orgInfo) {
 		this.orgInfo = orgInfo;
-	}
-	public List<UserInfo> getUsers() {
-		return users;
-	}
-	public void setUsers(List<UserInfo> users) {
-		this.users = users;
 	}
 	public OrgType getOrgType() {
 		return orgType;
