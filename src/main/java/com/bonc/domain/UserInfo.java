@@ -15,6 +15,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+
+import org.hibernate.validator.constraints.Email;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -31,15 +35,19 @@ public class UserInfo implements Serializable {
     @GeneratedValue
 	private java.lang.Long id;
 	
+	@NotNull
 	@Column(name="LOGIN_ID", length=255,nullable=false, unique=true)
 	private java.lang.String loginId;
 	
+	@NotNull
 	@Column(name="PASSWORD", length=255, nullable=false, unique=false) 
 	private java.lang.String passWord;
 	
+	@NotNull
 	@Column(name="USER_NAME", length=255, nullable=false, unique=false) 
 	private java.lang.String userName;
 	
+	@Email
 	@Column(name="EMAIL", length=100, nullable=true)
 	private java.lang.String email;
 	
@@ -55,9 +63,11 @@ public class UserInfo implements Serializable {
 	@Column(name="IS_NORAML", length=20, nullable=true)
 	private java.lang.Boolean isNormal;
 	
+	@Past
 	@Column(name="UPDATE_DATE", length=20, nullable=true)
 	private java.util.Date updateDate;
 	
+	@Past
 	@Column(name="CREATE_DATE", length=20, nullable=true)
 	private java.util.Date createDate;
 	

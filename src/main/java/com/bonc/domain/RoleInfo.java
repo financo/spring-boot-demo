@@ -1,8 +1,8 @@
 package com.bonc.domain;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -42,17 +42,16 @@ public class RoleInfo implements Serializable {
 	private RoleInfo roleInfo;
 	
 	@ManyToMany(mappedBy = "roles")
-	private Set<UserInfo> users = new HashSet<UserInfo>();
+	private List<UserInfo> users = new ArrayList<UserInfo>();
 	
-	
-	public Set<UserInfo> getUsers() {
-		return users;
-	}
-	public void setUsers(Set<UserInfo> users) {
-		this.users = users;
-	}
 	public RoleInfo() {
 		super();
+	}
+	public List<UserInfo> getUsers() {
+		return users;
+	}
+	public void setUsers(List<UserInfo> users) {
+		this.users = users;
 	}
 	public java.lang.Long getId() {
 		return id;

@@ -29,7 +29,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @RestController  
-@RequestMapping("security/api/sex")  
+@RequestMapping("security/api")  
 public class SexApi {  
 
       @Resource(name="sexService")
@@ -39,8 +39,8 @@ public class SexApi {
        * 查询所有性别对象接口
        */
       @ApiOperation(value="获取全部性别信息", notes="")
-      @RequestMapping(value="",method = RequestMethod.GET)  
-      public List<Sex>getAllSex(){  
+      @RequestMapping(value="/sexs",method = RequestMethod.GET)  
+      public List<Sex>getAllSexs(){  
           return sexService.findAll();  
       } 
       
@@ -52,8 +52,8 @@ public class SexApi {
               @ApiImplicitParam(name = "sex", value = "性别信息", required = false, dataType = "Sex"),
               @ApiImplicitParam(name = "pageInfo", value = "页面信息", required = false, dataType = "PageInfo"),
       })
-      @RequestMapping(value="/page",method = RequestMethod.GET)  
-      public Page<Sex>getAllSexPageable(Sex sex, PageInfo pageInfo){ 
+      @RequestMapping(value="/sex",method = RequestMethod.GET)  
+      public Page<Sex>getAllSex(Sex sex, PageInfo pageInfo){ 
           Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
           return sexService.findByExample(sex, pageable);
       } 
@@ -64,8 +64,8 @@ public class SexApi {
        */ 
       @ApiOperation(value="获取单个性别信息", notes="根据url的id来获取性别详细信息")
       @ApiImplicitParam(name = "id", value = "性别ID", required = true, dataType = "Long")
-      @RequestMapping(value="{id}", method = RequestMethod.GET)  
-      public ResponseEntity<Sex> findOne(@PathVariable("id") Long id){  
+      @RequestMapping(value="/sex/{id}", method = RequestMethod.GET)  
+      public ResponseEntity<Sex> getSex(@PathVariable("id") Long id){  
           Sex sex = sexService.findOne(id);  
           if(sex == null){  
               return new ResponseEntity<Sex>(HttpStatus.NOT_FOUND);  
@@ -81,7 +81,7 @@ public class SexApi {
               @ApiImplicitParam(name = "id", value = "性别ID", required = true, dataType = "Long"),
               @ApiImplicitParam(name = "sex", value = "角色详细实体sex", required = true, dataType = "Sex")
       })
-      @RequestMapping(value="{id}", method = RequestMethod.PUT)  
+      @RequestMapping(value="/sex/{id}", method = RequestMethod.PUT)  
       public ResponseEntity<Sex> updateSex(@Valid @RequestBody Sex sex, @PathVariable("id") Long id){  
           Sex sexDb = sexService.findOne(id);  
           if(sexDb == null){  
@@ -100,10 +100,11 @@ public class SexApi {
       @ApiImplicitParams({
               @ApiImplicitParam(name = "sex", value = "性别详细实体sex", required = true, dataType = "Sex")
       })
-      @RequestMapping(method = RequestMethod.POST)  
-      public Sex createSex(@Valid @RequestBody Sex sex){ 
+      @RequestMapping(value="/sex",method = RequestMethod.POST)  
+      public ResponseEntity<Sex> createSex(@Valid @RequestBody Sex sex){ 
     	  sex.setId(Long.MAX_VALUE);
-          return sexService.save(sex);  
+    	  Sex sexDb = sexService.save(sex);  
+    	  return new ResponseEntity<Sex>(sex,HttpStatus.OK); 
       }
       
       /*
@@ -111,7 +112,7 @@ public class SexApi {
        */
       @ApiOperation(value="删除性别", notes="根据url的id来指定删除对象")
       @ApiImplicitParam(name = "id", value = "性别ID", required = true, dataType = "Long")
-      @RequestMapping(value="{id}", method = RequestMethod.DELETE)  
+      @RequestMapping(value="/sex/{id}", method = RequestMethod.DELETE)  
       public void deleteSex(@PathVariable("id") Long id) {  
     	  sexService.delete(id);  
       }  

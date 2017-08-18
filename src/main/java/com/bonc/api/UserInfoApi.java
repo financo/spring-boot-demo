@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bonc.bean.PageInfo;
@@ -30,7 +29,7 @@ import io.swagger.annotations.ApiOperation;
   
   
 @RestController  
-@RequestMapping("security/api/userInfo")  
+@RequestMapping("security/api")  
 public class UserInfoApi {  
   
         @Resource(name="userInfoService")  
@@ -40,7 +39,7 @@ public class UserInfoApi {
          * 查询所有用户信息
          */  
         @ApiOperation(value="获取全部用户信息", notes="")
-        @RequestMapping(value="",method = RequestMethod.GET)  
+        @RequestMapping(value="/userInfos",method = RequestMethod.GET)  
         public List<UserInfo>getAllUserInfos(){  
             return userInfoService.findAll();  
         }  
@@ -51,8 +50,8 @@ public class UserInfoApi {
          */
         @ApiOperation(value="获取单个用户信息", notes="根据url的id来获取用户详细信息")
         @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long")
-        @RequestMapping(value="{id}", method = RequestMethod.GET)  
-        public ResponseEntity<UserInfo> findOne(@PathVariable("id") Long id){  
+        @RequestMapping(value="/userInfo/{id}", method = RequestMethod.GET)  
+        public ResponseEntity<UserInfo> getUserInfo(@PathVariable("id") Long id){  
             UserInfo userInfo = userInfoService.findOne(id);  
             if(userInfo == null){  
                 return new ResponseEntity<UserInfo>(HttpStatus.NOT_FOUND);  
@@ -65,20 +64,13 @@ public class UserInfoApi {
          */
         @ApiOperation(value="分页获取用户信息", notes="根据传过来的参数来分页获取用户信息")
         @ApiImplicitParams({
-                @ApiImplicitParam(name = "userName", value = "用户名", required = false, dataType = "String"),
-                @ApiImplicitParam(name = "loginId", value = "用户登陆名", required = false, dataType = "String"),
-                @ApiImplicitParam(name = "org", value = "组织机构", required = false, dataType = "String"),
-                @ApiImplicitParam(name = "role", value = "角色", required = false, dataType = "String"),
-                @ApiImplicitParam(name = "page", value = "页数", required = false, dataType = "Integer"),
-                @ApiImplicitParam(name = "size", value = "每页条数", required = false, dataType = "Integer"),
+                @ApiImplicitParam(name = "userInfo", value = "用户信息", required = false, dataType = "UserInfo"),
+                @ApiImplicitParam(name = "pageable", value = "页面信息", required = false, dataType = "PageInfo"),
         })
-        @RequestMapping(value="/page",method = RequestMethod.GET)  
-        public Page<UserInfo> findUserInfosfindByCondition(UserInfo userInfo, PageInfo pageInfo,
-        		@RequestParam(value="orgName", defaultValue="") String orgName,
-        		@RequestParam(value="roleName", defaultValue="") String roleName ){
+        @RequestMapping(value="/userInfo",method = RequestMethod.GET)  
+        public Page<UserInfo> getAllUserInfo(UserInfo userInfo, PageInfo pageInfo){
             Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
-            return userInfoService.findByCondition(userInfo, pageable, orgName, roleName);
-//            return userInfoService.findByCondition("", "", orgName, roleName, pageable);
+            return userInfoService.findByCondition(userInfo, pageable);
         } 
         
         /*
@@ -89,10 +81,11 @@ public class UserInfoApi {
         @ApiImplicitParams({
                 @ApiImplicitParam(name = "userInfo", value = "用户详细实体userInfo", required = true, dataType = "UserInfo")
         })
-        @RequestMapping(method = RequestMethod.POST)  
-        public UserInfo createUserInfo(@Valid @RequestBody UserInfo userInfo){ 
+        @RequestMapping(value="/userInfo", method = RequestMethod.POST)  
+        public ResponseEntity<UserInfo> createUserInfo(@Valid @RequestBody UserInfo userInfo){ 
         	userInfo.setId(Long.MAX_VALUE);
-            return userInfoService.save(userInfo);  
+        	UserInfo userInfoDb = userInfoService.save(userInfo);
+        	return new ResponseEntity<UserInfo>(userInfoDb,HttpStatus.OK);
         } 
         
         /*
@@ -105,7 +98,7 @@ public class UserInfoApi {
                 @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long"),
                 @ApiImplicitParam(name = "userInfo", value = "用户详细实体userInfo", required = true, dataType = "UserInfo")
         })
-        @RequestMapping(value="{id}", method = RequestMethod.PUT)  
+        @RequestMapping(value="/userInfo/{id}", method = RequestMethod.PUT)  
         public ResponseEntity<UserInfo> updateUserInfo(@Valid @RequestBody UserInfo userInfo, @PathVariable("id") Long id){  
             UserInfo userInfoDb = userInfoService.findOne(id);  
             if(userInfoDb == null){  
@@ -113,7 +106,7 @@ public class UserInfoApi {
             }  
             else{  
                 userInfoDb = userInfoService.save(userInfo);  
-                return new ResponseEntity<UserInfo>(userInfo,HttpStatus.OK);  
+                return new ResponseEntity<UserInfo>(userInfoDb,HttpStatus.OK);  
             }  
         }  
         
@@ -123,7 +116,7 @@ public class UserInfoApi {
          */ 
         @ApiOperation(value="删除用户", notes="根据url的id来指定删除对象")
         @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long")
-        @RequestMapping(value="{id}", method = RequestMethod.DELETE)  
+        @RequestMapping(value="/userInfo/{id}", method = RequestMethod.DELETE)  
         public void deleteUserInfo(@PathVariable("id") Long id) {  
             userInfoService.delete(id);  
         }  

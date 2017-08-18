@@ -1,8 +1,8 @@
 package com.bonc.domain;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -55,19 +55,21 @@ public class OrgInfo implements Serializable {
 	private java.lang.Long status;
 	
 	@ManyToMany(mappedBy = "orgs")
-	private Set<UserInfo> users = new HashSet<UserInfo>();
+	private List<UserInfo> users = new ArrayList<UserInfo>();
 	
-	
+	public OrgInfo() {
+		super();
+	}
 	public OrgInfo getOrgInfo() {
 		return orgInfo;
 	}
 	public void setOrgInfo(OrgInfo orgInfo) {
 		this.orgInfo = orgInfo;
 	}
-	public Set<UserInfo> getUsers() {
+	public List<UserInfo> getUsers() {
 		return users;
 	}
-	public void setUsers(Set<UserInfo> users) {
+	public void setUsers(List<UserInfo> users) {
 		this.users = users;
 	}
 	public OrgType getOrgType() {
@@ -75,9 +77,6 @@ public class OrgInfo implements Serializable {
 	}
 	public void setOrgType(OrgType orgType) {
 		this.orgType = orgType;
-	}
-	public OrgInfo() {
-		super();
 	}
 	public java.lang.Long getId() {
 		return id;
@@ -127,7 +126,4 @@ public class OrgInfo implements Serializable {
 	public void setStatus(java.lang.Long status) {
 		this.status = status;
 	}
-
-	
-	
 }

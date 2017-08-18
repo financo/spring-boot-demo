@@ -30,6 +30,7 @@ public class OrgInfoService extends BaseService<OrgInfo, java.lang.Long> impleme
 	public Page<OrgInfo> findByExample(OrgInfo orgInfo, Pageable pageable){
 		ExampleMatcher matcher = ExampleMatcher.matching()
 				.withMatcher("orgName", GenericPropertyMatchers.contains())
+				.withMatcher("orgType.orgtypeName", GenericPropertyMatchers.contains())
 				.withMatcher("orgCode", GenericPropertyMatchers.contains());
 		Example<OrgInfo> example = Example.of(orgInfo, matcher);
 		return orgInfoRepository.findAll(example,pageable);

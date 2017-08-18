@@ -8,5 +8,5 @@ import com.bonc.repository.custom.BaseRepositoryCustom;
 public class BaseRepositoryCustomImpl<T, I> implements BaseRepositoryCustom<T, I> {
 	
 	@PersistenceContext
-	protected EntityManager entityManager;
+	protected EntityManager em;
 }

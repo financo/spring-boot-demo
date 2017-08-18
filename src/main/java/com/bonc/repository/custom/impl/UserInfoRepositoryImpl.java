@@ -8,7 +8,7 @@ public class UserInfoRepositoryImpl extends BaseRepositoryCustomImpl<UserInfo, j
 
 	@Override
 	public UserInfo test(Long id) {
-		return entityManager.find(UserInfo.class, 1L);
+		return em.find(UserInfo.class, 1L);
 	}
 
 }

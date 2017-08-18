@@ -29,7 +29,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @RestController  
-@RequestMapping("security/api/roleInfo")  
+@RequestMapping("security/api")  
 public class RoleInfoApi {  
   
         @Resource(name="roleInfoService")  
@@ -39,7 +39,7 @@ public class RoleInfoApi {
          * 查询所有角色对象接口
          */
         @ApiOperation(value="获取全部角色信息", notes="")
-        @RequestMapping(value="",method = RequestMethod.GET)  
+        @RequestMapping(value="/roleInfos",method = RequestMethod.GET)  
         public List<RoleInfo>getAllRoleInfos(){  
             return roleInfoService.findAll();  
         }  
@@ -52,8 +52,8 @@ public class RoleInfoApi {
                 @ApiImplicitParam(name = "roleInfo", value = "角色信息", required = false, dataType = "RoleInfo"),
                 @ApiImplicitParam(name = "pageInfo", value = "页面信息", required = false, dataType = "PageInfo"),
         })
-        @RequestMapping(value="/page",method = RequestMethod.GET)  
-        public Page<RoleInfo>getAllRoleInfosPageable(RoleInfo roleInfo, PageInfo pageInfo){ 
+        @RequestMapping(value="/roleInfo",method = RequestMethod.GET)  
+        public Page<RoleInfo>getAllRoleInfo(RoleInfo roleInfo, PageInfo pageInfo){ 
             Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
             return roleInfoService.findByExample(roleInfo, pageable);
         } 
@@ -63,8 +63,8 @@ public class RoleInfoApi {
          */ 
         @ApiOperation(value="获取单个角色信息", notes="根据url的id来获取角色详细信息")
         @ApiImplicitParam(name = "id", value = "角色ID", required = true, dataType = "Long")
-        @RequestMapping(value="{id}", method = RequestMethod.GET)  
-        public ResponseEntity<RoleInfo> findOne(@PathVariable("id") Long id){  
+        @RequestMapping(value="/roleInfo/{id}", method = RequestMethod.GET)  
+        public ResponseEntity<RoleInfo> getRoleInfo(@PathVariable("id") Long id){  
             RoleInfo roleInfo = roleInfoService.findOne(id);  
             if(roleInfo == null){  
                 return new ResponseEntity<RoleInfo>(HttpStatus.NOT_FOUND);  
@@ -80,7 +80,7 @@ public class RoleInfoApi {
                 @ApiImplicitParam(name = "id", value = "角色ID", required = true, dataType = "Long"),
                 @ApiImplicitParam(name = "roleInfo", value = "角色详细实体userInfo", required = true, dataType = "RoleInfo")
         })
-        @RequestMapping(value="{id}", method = RequestMethod.PUT)  
+        @RequestMapping(value="/roleInfo/{id}", method = RequestMethod.PUT)  
         public ResponseEntity<RoleInfo> updateRoleInfo(@Valid @RequestBody RoleInfo roleInfo, @PathVariable("id") Long id){  
             RoleInfo roleInfoDb = roleInfoService.findOne(id);  
             if(roleInfoDb == null){  
@@ -88,7 +88,7 @@ public class RoleInfoApi {
             }  
             else{  
                 roleInfoDb = roleInfoService.save(roleInfo);  
-                return new ResponseEntity<RoleInfo>(roleInfo,HttpStatus.OK);  
+                return new ResponseEntity<RoleInfo>(roleInfoDb,HttpStatus.OK);  
             }  
         }
         
@@ -99,10 +99,11 @@ public class RoleInfoApi {
         @ApiImplicitParams({
                 @ApiImplicitParam(name = "roleInfo", value = "用户详细实体roleInfo", required = true, dataType = "RoleInfo")
         })
-        @RequestMapping(method = RequestMethod.POST)  
-        public RoleInfo createRoleInfo(@Valid @RequestBody RoleInfo roleInfo){
+        @RequestMapping(value="/roleInfo", method = RequestMethod.POST)  
+        public ResponseEntity<RoleInfo> createRoleInfo(@Valid @RequestBody RoleInfo roleInfo){
         	roleInfo.setId(Long.MAX_VALUE);
-            return roleInfoService.save(roleInfo);  
+        	RoleInfo roleInfoDb = roleInfoService.save(roleInfo);
+        	return new ResponseEntity<RoleInfo>(roleInfoDb,HttpStatus.OK);
         } 
          
         /*
@@ -110,7 +111,7 @@ public class RoleInfoApi {
          */
         @ApiOperation(value="删除角色", notes="根据url的id来指定删除对象")
         @ApiImplicitParam(name = "id", value = "角色ID", required = true, dataType = "Long")
-        @RequestMapping(value="{id}", method = RequestMethod.DELETE)  
+        @RequestMapping(value="/roleInfo/{id}", method = RequestMethod.DELETE)  
         public void deleteRoleInfo(@PathVariable("id") Long id) {  
         	roleInfoService.delete(id);  
         }  

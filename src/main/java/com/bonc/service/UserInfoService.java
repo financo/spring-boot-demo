@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.ListJoin;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -97,8 +98,7 @@ public class UserInfoService extends BaseService<UserInfo, java.lang.Long> imple
 	}
 
 	@Override
-	public Page<UserInfo> findByCondition(final UserInfo userInfo, Pageable pageable,
-			final String orgName, final String roleName) {
+	public Page<UserInfo> findByCondition(final UserInfo userInfo, Pageable pageable) {
 		return userInfoRepository.findAll(new Specification<UserInfo>() {
 			@Override
 			public Predicate toPredicate(Root<UserInfo> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
@@ -110,13 +110,13 @@ public class UserInfoService extends BaseService<UserInfo, java.lang.Long> imple
 				if (null != userInfo.getLoginId()) {
 					list.add(cb.like((Path)root.get("loginId"),"%"+userInfo.getLoginId()+"%"));
 				}
-				if (!"".equals(orgName)) {
-					SetJoin<UserInfo, OrgInfo> join= root.join(root.getModel().getSet("orgs",OrgInfo.class),JoinType.LEFT);
-					list.add(cb.like((Path)join.get("orgName"),"%"+orgName+"%"));
+				if (userInfo.getRoles().size()>0 && !"".equals(userInfo.getRoles().get(0).getRoleName())) {
+					ListJoin<UserInfo, RoleInfo> join= root.join(root.getModel().getList("roles",RoleInfo.class),JoinType.LEFT);
+					list.add(cb.like((Path)join.get("roleName"),"%"+userInfo.getRoles().get(0).getRoleName()+"%"));
 				}
-				if (!"".equals(roleName)) {
-					SetJoin<UserInfo, RoleInfo> join= root.join(root.getModel().getSet("roles",RoleInfo.class),JoinType.LEFT);
-					list.add(cb.like((Path)join.get("roleName"),"%"+roleName+"%"));
+				if (userInfo.getOrgs().size()>0 && !"".equals(userInfo.getOrgs().get(0).getOrgName())) {
+					ListJoin<UserInfo, OrgInfo> join= root.join(root.getModel().getList("orgs",OrgInfo.class),JoinType.LEFT);
+					list.add(cb.like((Path)join.get("orgName"),"%"+userInfo.getOrgs().get(0).getOrgName()+"%"));
 				}
 				Predicate[] p = new Predicate[list.size()];  
                 return cb.and(list.toArray(p)); 

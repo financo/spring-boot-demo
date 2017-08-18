@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiOperation;
 
 
 @RestController  
-@RequestMapping("security/api/orgType")  
+@RequestMapping("security/api")  
 public class OrgTypeApi {  
   
         @Resource(name="orgTypeService") 
@@ -40,7 +40,7 @@ public class OrgTypeApi {
          * 查询所有组织机构类型类型对象接口
          */
         @ApiOperation(value="获取全部组织机构类型信息", notes="")
-        @RequestMapping(value="",method = RequestMethod.GET)  
+        @RequestMapping(value="/orgTypes",method = RequestMethod.GET)  
         public List<OrgType>getAllOrgTypes(){  
             return orgTypeService.findAll();  
         }  
@@ -53,8 +53,8 @@ public class OrgTypeApi {
                 @ApiImplicitParam(name = "orgType", value = "组织机构类型", required = false, dataType = "OrgType"),
                 @ApiImplicitParam(name = "pageInfo", value = "页面信息", required = false, dataType = "PageInfo"),
         })
-        @RequestMapping(value="/page",method = RequestMethod.GET)  
-        public Page<OrgType>getAllOrgTypesPageable(OrgType orgType, PageInfo pageInfo){
+        @RequestMapping(value="/orgType",method = RequestMethod.GET)  
+        public Page<OrgType>getAllOrgType(OrgType orgType, PageInfo pageInfo){
             Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
             return orgTypeService.findAll(pageable);
         } 
@@ -64,8 +64,8 @@ public class OrgTypeApi {
          */  
         @ApiOperation(value="获取单个组织机构类型信息", notes="根据url的id来获取组织机构类型详细信息")
         @ApiImplicitParam(name = "id", value = "组织机构类型ID", required = true, dataType = "Long")
-        @RequestMapping(value="{id}", method = RequestMethod.GET)  
-        public ResponseEntity<OrgType> findOne(@PathVariable("id") Long id){  
+        @RequestMapping(value="/orgType/{id}", method = RequestMethod.GET)  
+        public ResponseEntity<OrgType> getOrgType(@PathVariable("id") Long id){  
             OrgType orgType = orgTypeService.findOne(id);  
             if(orgType == null){  
                 return new ResponseEntity<OrgType>(HttpStatus.NOT_FOUND);  
@@ -81,7 +81,7 @@ public class OrgTypeApi {
                 @ApiImplicitParam(name = "id", value = "组织机构类型ID", required = true, dataType = "Long"),
                 @ApiImplicitParam(name = "orgType", value = "组织机构类型详细实体orgType", required = true, dataType = "OrgType")
         })
-        @RequestMapping(value="{id}", method = RequestMethod.PUT)  
+        @RequestMapping(value="/orgType/{id}", method = RequestMethod.PUT)  
         public ResponseEntity<OrgType> updateOrgType(@Valid @RequestBody OrgType orgType, @PathVariable("id") Long id){  
             OrgType orgTypeDb = orgTypeService.findOne(id);  
             if(orgTypeDb == null){  
@@ -89,7 +89,7 @@ public class OrgTypeApi {
             }  
             else{  
                 orgTypeDb = orgTypeService.save(orgType);  
-                return new ResponseEntity<OrgType>(orgType,HttpStatus.OK);  
+                return new ResponseEntity<OrgType>(orgTypeDb,HttpStatus.OK);  
             }  
         } 
         
@@ -100,10 +100,11 @@ public class OrgTypeApi {
         @ApiImplicitParams({
                 @ApiImplicitParam(name = "orgType", value = "组织机构类型详细实体orgType", required = true, dataType = "OrgType")
         })
-        @RequestMapping(method = RequestMethod.POST)  
-        public OrgType createOrgType(@Valid @RequestBody OrgType orgType){ 
+        @RequestMapping(value="/orgType", method = RequestMethod.POST)  
+        public ResponseEntity<OrgType> createOrgType(@Valid @RequestBody OrgType orgType){ 
         	orgType.setId(Long.MAX_VALUE);
-            return orgTypeService.save(orgType);  
+        	OrgType orgTypeDb = orgTypeService.save(orgType);
+        	return new ResponseEntity<OrgType>(orgTypeDb,HttpStatus.OK);
         }
          
         /*
@@ -111,7 +112,7 @@ public class OrgTypeApi {
          */
         @ApiOperation(value="删除组织机构类型", notes="根据url的id来指定删除对象")
         @ApiImplicitParam(name = "id", value = "组织机构类型ID", required = true, dataType = "Long")
-        @RequestMapping(value="{id}", method = RequestMethod.DELETE)  
+        @RequestMapping(value="/orgType/{id}", method = RequestMethod.DELETE)  
         public void deleteOrgType(@PathVariable("id") Long id) {  
         	orgTypeService.delete(id);  
         }  

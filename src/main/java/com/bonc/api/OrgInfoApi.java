@@ -6,17 +6,13 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bonc.bean.PageInfo;
@@ -29,7 +25,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @RestController  
-@RequestMapping("security/api/orgInfo")  
+@RequestMapping("security/api")  
 public class OrgInfoApi {  
 
       @Resource(name="orgInfoService")  
@@ -39,7 +35,7 @@ public class OrgInfoApi {
        * 查询所有组织机构对象接口
        */
       @ApiOperation(value="获取全部组织机构信息", notes="")
-      @RequestMapping(value="",method = RequestMethod.GET)  
+      @RequestMapping(value="/orgInfos",method = RequestMethod.GET)  
       public List<OrgInfo> getAllOrgInfos(){  
           return orgInfoService.findAll();  
       }  
@@ -52,8 +48,8 @@ public class OrgInfoApi {
               @ApiImplicitParam(name = "orgInfo", value = "组织机构信息", required = false, dataType = "OrgInfo"),
               @ApiImplicitParam(name = "pageInfo", value = "页面信息", required = false, dataType = "PageInfo"),
       })
-      @RequestMapping(value="/page",method = RequestMethod.GET)  
-      public Page<OrgInfo> getAllOrgInfosPageable(OrgInfo orgInfo, PageInfo pageInfo){ 
+      @RequestMapping(value="/orgInfo",method = RequestMethod.GET)  
+      public Page<OrgInfo> getAllOrgInfo(OrgInfo orgInfo, PageInfo pageInfo){ 
           Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
           return orgInfoService.findByExample(orgInfo, pageable);
       } 
@@ -63,8 +59,8 @@ public class OrgInfoApi {
        */  
       @ApiOperation(value="获取单个组织机构信息", notes="根据url的id来获取组织机构详细信息")
       @ApiImplicitParam(name = "id", value = "组织机构ID", required = true, dataType = "Long")
-      @RequestMapping(value="{id}", method = RequestMethod.GET)  
-      public ResponseEntity<OrgInfo> findOne(@PathVariable("id") Long id){  
+      @RequestMapping(value="/orgInfo/{id}", method = RequestMethod.GET)  
+      public ResponseEntity<OrgInfo> getOrgInfo(@PathVariable("id") Long id){  
           OrgInfo orgInfo = orgInfoService.findOne(id);  
           if(orgInfo == null){  
               return new ResponseEntity<OrgInfo>(HttpStatus.NOT_FOUND);  
@@ -80,7 +76,7 @@ public class OrgInfoApi {
               @ApiImplicitParam(name = "id", value = "组织机构ID", required = true, dataType = "Long"),
               @ApiImplicitParam(name = "orgInfo", value = "组织机构详细实体orgInfo", required = true, dataType = "OrgInfo")
       })
-      @RequestMapping(value="{id}", method = RequestMethod.PUT)  
+      @RequestMapping(value="/orgInfo/{id}", method = RequestMethod.PUT)  
       public ResponseEntity<OrgInfo> updateOrgInfo(@Valid @RequestBody OrgInfo orgInfo, @PathVariable("id") Long id){  
           OrgInfo orgInfoDb = orgInfoService.findOne(id);  
           if(orgInfoDb == null){  
@@ -88,7 +84,7 @@ public class OrgInfoApi {
           }  
           else{  
               orgInfoDb = orgInfoService.save(orgInfo);  
-              return new ResponseEntity<OrgInfo>(orgInfo,HttpStatus.OK);  
+              return new ResponseEntity<OrgInfo>(orgInfoDb,HttpStatus.OK);  
           }  
       } 
       
@@ -99,10 +95,11 @@ public class OrgInfoApi {
       @ApiImplicitParams({
               @ApiImplicitParam(name = "orgInfo", value = "组织机构详细实体orgInfo", required = true, dataType = "OrgInfo")
       })
-      @RequestMapping(method = RequestMethod.POST)  
-      public OrgInfo createOrgInfo(@Valid @RequestBody OrgInfo orgInfo){  
+      @RequestMapping(value="/orgInfo", method = RequestMethod.POST)  
+      public ResponseEntity<OrgInfo> createOrgInfo(@Valid @RequestBody OrgInfo orgInfo){  
     	  orgInfo.setId(Long.MAX_VALUE);
-          return orgInfoService.save(orgInfo);  
+    	  OrgInfo orgInfoDb = orgInfoService.save(orgInfo); 
+          return new ResponseEntity<OrgInfo>(orgInfoDb,HttpStatus.OK);
       } 
        
       /*
@@ -110,7 +107,7 @@ public class OrgInfoApi {
        */
       @ApiOperation(value="删除组织结构", notes="根据url的id来指定删除对象")
       @ApiImplicitParam(name = "id", value = "组织机构ID", required = true, dataType = "Long")
-      @RequestMapping(value="{id}", method = RequestMethod.DELETE)  
+      @RequestMapping(value="/orgInfo/{id}", method = RequestMethod.DELETE)  
       public void deleteOrgInfo(@PathVariable("id") Long id) {  
     	  orgInfoService.delete(id);  
       }  
