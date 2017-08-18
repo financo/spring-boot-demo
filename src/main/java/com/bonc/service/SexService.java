@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.stereotype.Service;
 
-import com.bonc.domain.OrgType;
 import com.bonc.domain.Sex;
 import com.bonc.repository.BaseRepository;
 import com.bonc.repository.SexRepository;

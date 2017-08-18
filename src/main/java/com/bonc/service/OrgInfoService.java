@@ -9,7 +9,6 @@ import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.stereotype.Service;
 
 import com.bonc.domain.OrgInfo;
-import com.bonc.domain.RoleInfo;
 import com.bonc.repository.BaseRepository;
 import com.bonc.repository.OrgInfoRepository;
 import com.bonc.service.interfac.IOrgInfoService;
