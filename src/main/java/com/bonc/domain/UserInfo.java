@@ -1,8 +1,8 @@
 package com.bonc.domain;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -72,26 +72,26 @@ public class UserInfo implements Serializable {
     @JoinTable(name = "test_user_role_rel", 
             joinColumns = { @JoinColumn(name = "USERINFO_ID", referencedColumnName = "ID") }, 
             inverseJoinColumns = { @JoinColumn(name = "ROLEINFO_ID", referencedColumnName = "ID") })
-	private Set<RoleInfo> roles = new HashSet<RoleInfo>();
+	private List<RoleInfo> roles = new ArrayList<RoleInfo>();
 	
 	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(name = "test_user_org_rel", 
             joinColumns = { @JoinColumn(name = "USERINFO_ID", referencedColumnName = "ID") }, 
             inverseJoinColumns = { @JoinColumn(name = "ORGINFO_ID", referencedColumnName = "ID") })
-	private Set<OrgInfo> orgs = new HashSet<OrgInfo>();
+	private List<OrgInfo> orgs = new ArrayList<OrgInfo>();
 	
 	
 	
-	public Set<OrgInfo> getOrgs() {
+	public List<OrgInfo> getOrgs() {
 		return orgs;
 	}
-	public void setOrgs(Set<OrgInfo> orgs) {
+	public void setOrgs(List<OrgInfo> orgs) {
 		this.orgs = orgs;
 	}
-	public Set<RoleInfo> getRoles() {
+	public List<RoleInfo> getRoles() {
 		return roles;
 	}
-	public void setRoles(Set<RoleInfo> roles) {
+	public void setRoles(List<RoleInfo> roles) {
 		this.roles = roles;
 	}
 	public Sex getSex() {

@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bonc.bean.PageInfo;
 import com.bonc.domain.RoleInfo;
 import com.bonc.service.interfac.IRoleInfoService;
+import com.bonc.util.PageInfoUtil;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -47,17 +49,13 @@ public class RoleInfoApi {
          */
         @ApiOperation(value="分页获取角色信息", notes="根据传过来的参数来分页获取角色信息")
         @ApiImplicitParams({
-                @ApiImplicitParam(name = "page", value = "页数", required = false, dataType = "Integer"),
-                @ApiImplicitParam(name = "size", value = "每页条数", required = false, dataType = "Integer"),
+                @ApiImplicitParam(name = "roleInfo", value = "角色信息", required = false, dataType = "RoleInfo"),
+                @ApiImplicitParam(name = "pageInfo", value = "页面信息", required = false, dataType = "PageInfo"),
         })
         @RequestMapping(value="/page",method = RequestMethod.GET)  
-        public Page<RoleInfo>getAllUserInfosPageable(
-        		@RequestParam(value = "page", defaultValue = "0") Integer page,
-        		@RequestParam(value = "size", defaultValue = "10") Integer size
-        		){ 
-            Sort sort = new Sort(Direction.DESC, "id");
-            Pageable pageable = new PageRequest(page, size, sort);
-            return roleInfoService.findAll(pageable);
+        public Page<RoleInfo>getAllRoleInfosPageable(RoleInfo roleInfo, PageInfo pageInfo){ 
+            Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
+            return roleInfoService.findByExample(roleInfo, pageable);
         } 
           
         /*

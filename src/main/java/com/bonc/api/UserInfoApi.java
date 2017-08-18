@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bonc.bean.PageInfo;
 import com.bonc.domain.UserInfo;
 import com.bonc.service.interfac.IUserInfoService;
+import com.bonc.util.PageInfoUtil;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -71,17 +73,12 @@ public class UserInfoApi {
                 @ApiImplicitParam(name = "size", value = "每页条数", required = false, dataType = "Integer"),
         })
         @RequestMapping(value="/page",method = RequestMethod.GET)  
-        public Page<UserInfo> findUserInfosfindByCondition(
-        		@RequestParam(value = "userName", defaultValue = "") String username,
-        		@RequestParam(value = "loginId", defaultValue = "") String loginId,
-        		@RequestParam(value = "org", defaultValue = "") String org,
-        		@RequestParam(value = "role", defaultValue = "") String role,
-        		@RequestParam(value = "page", defaultValue = "0") Integer page,
-        		@RequestParam(value = "size", defaultValue = "10") Integer size
-        		){ 
-            Sort sort = new Sort(Direction.DESC, "id");
-            Pageable pageable = new PageRequest(page, size, sort);
-            return userInfoService.findByCondition(username, loginId, org, role, pageable);
+        public Page<UserInfo> findUserInfosfindByCondition(UserInfo userInfo, PageInfo pageInfo,
+        		@RequestParam(value="orgName", defaultValue="") String orgName,
+        		@RequestParam(value="roleName", defaultValue="") String roleName ){
+            Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
+            return userInfoService.findByCondition(userInfo, pageable, orgName, roleName);
+//            return userInfoService.findByCondition("", "", orgName, roleName, pageable);
         } 
         
         /*

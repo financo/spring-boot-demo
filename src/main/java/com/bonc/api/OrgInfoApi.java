@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bonc.bean.PageInfo;
 import com.bonc.domain.OrgInfo;
 import com.bonc.service.interfac.IOrgInfoService;
+import com.bonc.util.PageInfoUtil;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -38,7 +40,7 @@ public class OrgInfoApi {
        */
       @ApiOperation(value="获取全部组织机构信息", notes="")
       @RequestMapping(value="",method = RequestMethod.GET)  
-      public List<OrgInfo>getAllOrgInfos(){  
+      public List<OrgInfo> getAllOrgInfos(){  
           return orgInfoService.findAll();  
       }  
       
@@ -47,17 +49,13 @@ public class OrgInfoApi {
        */
       @ApiOperation(value="分页获取组织机构信息", notes="根据传过来的参数来分页获取组织机构信息")
       @ApiImplicitParams({
-              @ApiImplicitParam(name = "page", value = "页数", required = false, dataType = "Integer"),
-              @ApiImplicitParam(name = "size", value = "每页条数", required = false, dataType = "Integer"),
+              @ApiImplicitParam(name = "orgInfo", value = "组织机构信息", required = false, dataType = "OrgInfo"),
+              @ApiImplicitParam(name = "pageInfo", value = "页面信息", required = false, dataType = "PageInfo"),
       })
       @RequestMapping(value="/page",method = RequestMethod.GET)  
-      public Page<OrgInfo>getAllOrgInfosPageable(
-      		@RequestParam(value = "page", defaultValue = "0") Integer page,
-      		@RequestParam(value = "size", defaultValue = "10") Integer size
-      		){ 
-          Sort sort = new Sort(Direction.DESC, "id");
-          Pageable pageable = new PageRequest(page, size, sort);
-          return orgInfoService.findAll(pageable);
+      public Page<OrgInfo> getAllOrgInfosPageable(OrgInfo orgInfo, PageInfo pageInfo){ 
+          Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
+          return orgInfoService.findByExample(orgInfo, pageable);
       } 
       
       /*

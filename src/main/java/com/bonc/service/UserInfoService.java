@@ -20,12 +20,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.bonc.bean.PageInfo;
 import com.bonc.domain.OrgInfo;
 import com.bonc.domain.RoleInfo;
 import com.bonc.domain.UserInfo;
 import com.bonc.repository.BaseRepository;
 import com.bonc.repository.UserInfoRepository;
 import com.bonc.service.interfac.IUserInfoService;
+import com.bonc.util.PageInfoUtil;
 
 @Service(value="userInfoService")
 public class UserInfoService extends BaseService<UserInfo, java.lang.Long> implements IUserInfoService{
@@ -69,13 +71,13 @@ public class UserInfoService extends BaseService<UserInfo, java.lang.Long> imple
 	/*
 	 * example匹配查询
 	 */
-	public Page<UserInfo> findByExample(String username, String loginId, String org, String role ,Pageable pageable){
-		UserInfo userInfo = new UserInfo();
-		userInfo.setUserName(username);
-		userInfo.setLoginId(loginId);
+	public Page<UserInfo> findByExample(UserInfo userInfo, PageInfo pageInfo){
+		Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
 		ExampleMatcher matcher = ExampleMatcher.matching()
 				.withMatcher("userName", GenericPropertyMatchers.contains())
-				.withMatcher("loginId", GenericPropertyMatchers.contains());
+				.withMatcher("loginId", GenericPropertyMatchers.contains())
+				/*.withMatcher(propertyPath, GenericPropertyMatchers.contains())
+				.withMatcher(propertyPath, GenericPropertyMatchers.contains())*/;
 		Example<UserInfo> example = Example.of(userInfo, matcher);
 		return userInfoRepository.findAll(example,pageable);
 	}
@@ -86,6 +88,40 @@ public class UserInfoService extends BaseService<UserInfo, java.lang.Long> imple
 
 	public UserInfo testCommon() {
 		return (UserInfo) this.getCurrentRepository().testCommon(1L);
+	}
+
+	@Override
+	public Page<UserInfo> findByExample(String username, String loginId, String org, String role, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Page<UserInfo> findByCondition(final UserInfo userInfo, Pageable pageable,
+			final String orgName, final String roleName) {
+		return userInfoRepository.findAll(new Specification<UserInfo>() {
+			@Override
+			public Predicate toPredicate(Root<UserInfo> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				
+				List<Predicate> list = new ArrayList<Predicate>();
+				if (null != userInfo.getUserName()) {
+					list.add(cb.like((Path)root.get("userName"),"%"+userInfo.getUserName()+"%"));
+				}
+				if (null != userInfo.getLoginId()) {
+					list.add(cb.like((Path)root.get("loginId"),"%"+userInfo.getLoginId()+"%"));
+				}
+				if (!"".equals(orgName)) {
+					SetJoin<UserInfo, OrgInfo> join= root.join(root.getModel().getSet("orgs",OrgInfo.class),JoinType.LEFT);
+					list.add(cb.like((Path)join.get("orgName"),"%"+orgName+"%"));
+				}
+				if (!"".equals(roleName)) {
+					SetJoin<UserInfo, RoleInfo> join= root.join(root.getModel().getSet("roles",RoleInfo.class),JoinType.LEFT);
+					list.add(cb.like((Path)join.get("roleName"),"%"+roleName+"%"));
+				}
+				Predicate[] p = new Predicate[list.size()];  
+                return cb.and(list.toArray(p)); 
+			}
+		}, pageable);
 	}
 	
 }
