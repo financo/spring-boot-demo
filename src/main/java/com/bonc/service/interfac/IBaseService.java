@@ -1,16 +1,17 @@
 package com.bonc.service.interfac;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-public interface IBaseService<T,I> {
+public interface IBaseService<T,ID extends Serializable> {
 	
-	public T findOne(I id);
+	public T findOne(ID id);
 	public List<T> findAll();
-	public List<T> findAll(List<I> ids);
+	public List<T> findAll(List<ID> ids);
 	public Page<T> findAll(Pageable pageable);
 	public List<T> findAll(Sort sort);
 	
@@ -18,11 +19,14 @@ public interface IBaseService<T,I> {
 	public List<T> save(List<T> entities);
 	public T saveAndFlush(T entity);
 	
-	public void delete(I id);
+	public void delete(ID id);
+	public void delete(T entity);
 	public void deleteAll();
 	public void delete(List<T> entities);
+	public void deleteInBatch(List<T> entities);
+	public void deleteAllInBatch();
 	
 	public long count();
-	public boolean exists(I id);
+	public boolean exists(ID id);
 	
 }

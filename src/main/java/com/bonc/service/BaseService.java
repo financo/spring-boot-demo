@@ -12,7 +12,7 @@ import org.springframework.data.domain.Sort;
 import com.bonc.repository.BaseRepository;
 import com.bonc.service.interfac.IBaseService;
 
-public abstract class BaseService<T, I extends Serializable> implements IBaseService<T, I>{
+public abstract class BaseService<T, ID extends Serializable> implements IBaseService<T, ID>{
 	
 	abstract protected BaseRepository getCurrentRepository();
 	
@@ -20,7 +20,7 @@ public abstract class BaseService<T, I extends Serializable> implements IBaseSer
 	 * 根据ID获取对象
 	 */
 	@Override
-	public T findOne(I id) {
+	public T findOne(ID id) {
 		return (T) getCurrentRepository().findOne(id);
 	}
 
@@ -36,7 +36,7 @@ public abstract class BaseService<T, I extends Serializable> implements IBaseSer
 	 * 获取给定id的对象信息
 	 */
 	@Override
-	public List<T> findAll(List<I> ids) {
+	public List<T> findAll(List<ID> ids) {
 		return getCurrentRepository().findAll(ids);
 	}
 
@@ -88,8 +88,17 @@ public abstract class BaseService<T, I extends Serializable> implements IBaseSer
 	 */
 	@Override
 	@Transactional
-	public void delete(I id) {
+	public void delete(ID id) {
 		getCurrentRepository().delete(id);
+	}
+	
+	/*
+	 * 删除给定对象信息
+	 */
+	@Override
+	@Transactional
+	public void delete(T entity) {
+		getCurrentRepository().delete(entity);
 	}
 
 	/*
@@ -109,6 +118,20 @@ public abstract class BaseService<T, I extends Serializable> implements IBaseSer
 	public void delete(List<T> entities) {
 		getCurrentRepository().delete(entities);
 	}
+	
+	/*
+	 * 批量删除对象信息
+	 */
+	public void deleteInBatch(List<T> entities){
+		getCurrentRepository().deleteInBatch(entities);
+	}
+	
+	/*
+	 * 批量删除所有对象信息
+	 */
+	public void deleteAllInBatch(){
+		getCurrentRepository().deleteAllInBatch();
+	}
 
 	/*
 	 * 查询对象数量
@@ -122,7 +145,7 @@ public abstract class BaseService<T, I extends Serializable> implements IBaseSer
 	 * 查询对象是否存在
 	 */
 	@Override
-	public boolean exists(I id) {
+	public boolean exists(ID id) {
 		return getCurrentRepository().exists(id);
 	}
 
