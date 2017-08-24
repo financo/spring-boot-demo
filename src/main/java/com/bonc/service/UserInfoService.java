@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.ListJoin;
 import javax.persistence.criteria.Path;
@@ -56,7 +57,7 @@ public class UserInfoService extends BaseService<UserInfo, java.lang.Long> imple
 					list.add(cb.like((Path)root.get("loginId"),"%"+loginId+"%"));
 				}
 				if (!"".equals(org)) {
-					SetJoin<UserInfo, OrgInfo> join= root.join(root.getModel().getSet("orgs",OrgInfo.class),JoinType.LEFT);
+					Join<Object, Object> join= root.join("orgs",JoinType.LEFT);
 					list.add(cb.like((Path)join.get("orgName"),"%"+org+"%"));
 				}
 				if (!"".equals(role)) {
@@ -122,6 +123,12 @@ public class UserInfoService extends BaseService<UserInfo, java.lang.Long> imple
                 return cb.and(list.toArray(p)); 
 			}
 		}, pageable);
+	}
+
+	@Override
+	public Page<UserInfo> findByAuto(UserInfo userInfo, Pageable pageable) {
+		Page<UserInfo> cPage= userInfoRepository.findByAuto(userInfo, pageable);
+		return cPage;
 	}
 	
 }

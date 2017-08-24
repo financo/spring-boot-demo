@@ -111,4 +111,22 @@ public class OrgInfoApi {
       public void deleteOrgInfo(@PathVariable("id") Long id) {  
     	  orgInfoService.delete(id);  
       }  
+      
+      /*
+       * 测试
+       */
+      @RequestMapping(value="/testOrg",method = RequestMethod.GET)  
+      public Page<OrgInfo> test(OrgInfo orgInfo, PageInfo pageInfo){ 
+          Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
+          return orgInfoService.findByAuto(orgInfo, pageable);
+      } 
+      
+      /*
+       * 测试
+       */
+      @RequestMapping(value="/testOrg2",method = RequestMethod.GET)  
+      public Page<OrgInfo> test2(OrgInfo orgInfo, PageInfo pageInfo){ 
+          Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
+          return orgInfoService.findSpecification(orgInfo, pageable);
+      } 
 } 

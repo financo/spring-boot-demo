@@ -8,4 +8,5 @@ import com.bonc.domain.RoleInfo;
 public interface IRoleInfoService extends IBaseService<RoleInfo, java.lang.Long>{
 
 	public Page<RoleInfo> findByExample(RoleInfo roleInfo, Pageable pageable);
+	public Page<RoleInfo> findByAuto(RoleInfo roleInfo, Pageable pageable);
 }

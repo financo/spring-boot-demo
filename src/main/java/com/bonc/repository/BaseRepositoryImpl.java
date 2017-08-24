@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.EntityManager;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 
 public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRepository<T, ID> 
@@ -25,5 +27,10 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
 	@Override
 	public T testCommon(ID i) {
 		return (T) em.find(domainClass, i);
+	}
+
+	@Override
+	public Page<T> findByAuto(T example, Pageable pageable) {
+		return findAll(MySpecs.byAuto(em, example), pageable);
 	}
 }

@@ -148,5 +148,15 @@ public class UserInfoApi {
             return uInfo;
         }
         
+        /*
+         * test3
+         */ 
+        @RequestMapping(value="/testUser", method = RequestMethod.GET)  
+        public Page<UserInfo> test4(UserInfo userInfo, PageInfo pageInfo) { 
+        	Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
+        	Page<UserInfo> uInfo = userInfoService.findByAuto(userInfo, pageable);
+            return uInfo;
+        }
+        
         
 } 

@@ -49,7 +49,7 @@ public class RoleInfoApi {
                 @ApiImplicitParam(name = "pageInfo", value = "页面信息", required = false, dataType = "PageInfo"),
         })
         @RequestMapping(value="/roleInfo",method = RequestMethod.GET)  
-        public Page<RoleInfo>getAllRoleInfo(RoleInfo roleInfo, PageInfo pageInfo){ 
+        public Page<RoleInfo> getAllRoleInfo(RoleInfo roleInfo, PageInfo pageInfo){ 
             Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
             return roleInfoService.findByExample(roleInfo, pageable);
         } 
@@ -111,4 +111,13 @@ public class RoleInfoApi {
         public void deleteRoleInfo(@PathVariable("id") Long id) {  
         	roleInfoService.delete(id);  
         }  
+        
+        /*
+         * 测试
+         */
+        @RequestMapping(value="/testRole", method = RequestMethod.GET)  
+        public Page<RoleInfo> deleteRoleInfo(RoleInfo roleInfo, PageInfo pageInfo) { 
+        	Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
+        	return roleInfoService.findByAuto(roleInfo, pageable);
+        } 
 } 
