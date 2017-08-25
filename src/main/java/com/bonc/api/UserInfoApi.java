@@ -129,13 +129,4 @@ public class UserInfoApi {
             return userInfoService.test();
         }
         
-        /*
-         * test3
-         */ 
-        @RequestMapping(value="/test3", method = RequestMethod.GET)  
-        public UserInfo test3() { 
-            UserInfo uInfo = userInfoService.testCommon();
-            return uInfo;
-        }
-        
 } 

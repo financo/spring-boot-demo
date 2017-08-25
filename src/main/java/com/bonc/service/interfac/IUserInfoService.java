@@ -8,6 +8,5 @@ import com.bonc.domain.UserInfo;
 public interface IUserInfoService extends IBaseService<UserInfo, java.lang.Long>{
 	
 	public UserInfo test();
-	public UserInfo testCommon();
 	public Page<UserInfo> findByCondition(UserInfo userInfo, Pageable pageable);
 }

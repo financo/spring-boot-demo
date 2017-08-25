@@ -42,15 +42,9 @@ public class UserInfoService extends BaseService<UserInfo, java.lang.Long> imple
 		return this.userInfoRepository;
 	}
 	
-	
 	public UserInfo test(){
 		return userInfoRepository.test(1L);
 	}
-
-	public UserInfo testCommon() {
-		return (UserInfo) this.getCurrentRepository().testCommon(1L);
-	}
-
 
 	@Override
 	public Page<UserInfo> findByCondition(final UserInfo userInfo, Pageable pageable) {

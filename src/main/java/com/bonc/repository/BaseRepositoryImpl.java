@@ -25,11 +25,6 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
 	@Override
-	public T testCommon(ID i) {
-		return (T) em.find(domainClass, i);
-	}
-
-	@Override
 	public Page<T> findByAuto(T example, Pageable pageable) {
 		return findAll(MySpecs.byAuto(em, example), pageable);
 	}
