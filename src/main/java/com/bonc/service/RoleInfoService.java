@@ -34,11 +34,4 @@ public class RoleInfoService extends BaseService<RoleInfo, java.lang.Long> imple
 		return roleInfoRepository.findAll(example,pageable);
 	}
 	
-	/*
-	 * 测试findByAuto
-	 */
-	public Page<RoleInfo> findByAuto(RoleInfo roleInfo, Pageable pageable){
-		Page<RoleInfo> cPage= roleInfoRepository.findByAuto(roleInfo, pageable);
-		return cPage;
-	}
 }

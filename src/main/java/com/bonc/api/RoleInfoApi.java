@@ -51,7 +51,7 @@ public class RoleInfoApi {
         @RequestMapping(value="/roleInfo",method = RequestMethod.GET)  
         public Page<RoleInfo> getAllRoleInfo(RoleInfo roleInfo, PageInfo pageInfo){ 
             Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
-            return roleInfoService.findByExample(roleInfo, pageable);
+            return roleInfoService.findByAuto(roleInfo, pageable);
         } 
           
         /*
@@ -112,12 +112,4 @@ public class RoleInfoApi {
         	roleInfoService.delete(id);  
         }  
         
-        /*
-         * 测试
-         */
-        @RequestMapping(value="/testRole", method = RequestMethod.GET)  
-        public Page<RoleInfo> deleteRoleInfo(RoleInfo roleInfo, PageInfo pageInfo) { 
-        	Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
-        	return roleInfoService.findByAuto(roleInfo, pageable);
-        } 
 } 

@@ -148,5 +148,13 @@ public abstract class BaseService<T, ID extends Serializable> implements IBaseSe
 	public boolean exists(ID id) {
 		return getCurrentRepository().exists(id);
 	}
+	
+	/*
+	 * 公共动态条件查询
+	 */
+	@Override
+	public Page<T> findByAuto(T t, Pageable pageable){
+		return getCurrentRepository().findByAuto(t, pageable);
+	}
 
 }

@@ -42,47 +42,6 @@ public class UserInfoService extends BaseService<UserInfo, java.lang.Long> imple
 		return this.userInfoRepository;
 	}
 	
-	//******************************条件查询**********************************//
-	
-	public Page<UserInfo> findByCondition(final String username, final String loginId, final String org, final String role ,Pageable pageable){
-		return userInfoRepository.findAll(new Specification<UserInfo>() {
-			@Override
-			public Predicate toPredicate(Root<UserInfo> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-				
-				List<Predicate> list = new ArrayList<Predicate>();
-				if (!"".equals(username)) {
-					list.add(cb.like((Path)root.get("userName"),"%"+username+"%"));
-				}
-				if (!"".equals(loginId)) {
-					list.add(cb.like((Path)root.get("loginId"),"%"+loginId+"%"));
-				}
-				if (!"".equals(org)) {
-					Join<Object, Object> join= root.join("orgs",JoinType.LEFT);
-					list.add(cb.like((Path)join.get("orgName"),"%"+org+"%"));
-				}
-				if (!"".equals(role)) {
-					SetJoin<UserInfo, RoleInfo> join= root.join(root.getModel().getSet("roles",RoleInfo.class),JoinType.LEFT);
-					list.add(cb.like((Path)join.get("roleName"),"%"+role+"%"));
-				}
-				Predicate[] p = new Predicate[list.size()];  
-                return cb.and(list.toArray(p)); 
-			}
-		}, pageable);
-	}
-	
-	/*
-	 * example匹配查询
-	 */
-	public Page<UserInfo> findByExample(UserInfo userInfo, PageInfo pageInfo){
-		Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
-		ExampleMatcher matcher = ExampleMatcher.matching()
-				.withMatcher("userName", GenericPropertyMatchers.contains())
-				.withMatcher("loginId", GenericPropertyMatchers.contains())
-				/*.withMatcher(propertyPath, GenericPropertyMatchers.contains())
-				.withMatcher(propertyPath, GenericPropertyMatchers.contains())*/;
-		Example<UserInfo> example = Example.of(userInfo, matcher);
-		return userInfoRepository.findAll(example,pageable);
-	}
 	
 	public UserInfo test(){
 		return userInfoRepository.test(1L);
@@ -92,11 +51,6 @@ public class UserInfoService extends BaseService<UserInfo, java.lang.Long> imple
 		return (UserInfo) this.getCurrentRepository().testCommon(1L);
 	}
 
-	@Override
-	public Page<UserInfo> findByExample(String username, String loginId, String org, String role, Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Page<UserInfo> findByCondition(final UserInfo userInfo, Pageable pageable) {
@@ -125,10 +79,4 @@ public class UserInfoService extends BaseService<UserInfo, java.lang.Long> imple
 		}, pageable);
 	}
 
-	@Override
-	public Page<UserInfo> findByAuto(UserInfo userInfo, Pageable pageable) {
-		Page<UserInfo> cPage= userInfoRepository.findByAuto(userInfo, pageable);
-		return cPage;
-	}
-	
 }

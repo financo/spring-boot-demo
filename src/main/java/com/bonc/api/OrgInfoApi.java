@@ -51,7 +51,7 @@ public class OrgInfoApi {
       @RequestMapping(value="/orgInfo",method = RequestMethod.GET)  
       public Page<OrgInfo> getAllOrgInfo(OrgInfo orgInfo, PageInfo pageInfo){ 
           Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
-          return orgInfoService.findByExample(orgInfo, pageable);
+          return orgInfoService.findByAuto(orgInfo, pageable);
       } 
       
       /*
@@ -112,21 +112,4 @@ public class OrgInfoApi {
     	  orgInfoService.delete(id);  
       }  
       
-      /*
-       * 测试
-       */
-      @RequestMapping(value="/testOrg",method = RequestMethod.GET)  
-      public Page<OrgInfo> test(OrgInfo orgInfo, PageInfo pageInfo){ 
-          Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
-          return orgInfoService.findByAuto(orgInfo, pageable);
-      } 
-      
-      /*
-       * 测试
-       */
-      @RequestMapping(value="/testOrg2",method = RequestMethod.GET)  
-      public Page<OrgInfo> test2(OrgInfo orgInfo, PageInfo pageInfo){ 
-          Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
-          return orgInfoService.findSpecification(orgInfo, pageable);
-      } 
 } 

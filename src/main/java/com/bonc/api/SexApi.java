@@ -51,7 +51,7 @@ public class SexApi {
       @RequestMapping(value="/sex",method = RequestMethod.GET)  
       public Page<Sex>getAllSex(Sex sex, PageInfo pageInfo){ 
           Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
-          return sexService.findByExample(sex, pageable);
+          return sexService.findByAuto(sex, pageable);
       } 
         
         

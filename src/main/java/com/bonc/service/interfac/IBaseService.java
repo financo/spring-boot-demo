@@ -29,4 +29,6 @@ public interface IBaseService<T,ID extends Serializable> {
 	public long count();
 	public boolean exists(ID id);
 	
+	public Page<T> findByAuto(T t, Pageable pageable);
+	
 }

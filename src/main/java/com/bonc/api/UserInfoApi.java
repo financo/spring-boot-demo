@@ -70,7 +70,7 @@ public class UserInfoApi {
         @RequestMapping(value="/userInfo",method = RequestMethod.GET)  
         public Page<UserInfo> getAllUserInfo(UserInfo userInfo, PageInfo pageInfo){
             Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
-            return userInfoService.findByCondition(userInfo, pageable);
+            return userInfoService.findByAuto(userInfo, pageable);
         } 
         
         /*
@@ -122,16 +122,6 @@ public class UserInfoApi {
         }  
         
         /*
-         * test1
-         */ 
-        @RequestMapping(value="/test", method = RequestMethod.GET)  
-        public void test() { 
-        	int page=1,size=10;
-            Sort sort = new Sort(Direction.DESC, "id");
-            Pageable pageable = new PageRequest(page, size, sort);
-            userInfoService.findByExample("wang", "", "", "", pageable);  
-        } 
-        /*
          * test2
          */ 
         @RequestMapping(value="/test2", method = RequestMethod.GET)  
@@ -147,16 +137,5 @@ public class UserInfoApi {
             UserInfo uInfo = userInfoService.testCommon();
             return uInfo;
         }
-        
-        /*
-         * test3
-         */ 
-        @RequestMapping(value="/testUser", method = RequestMethod.GET)  
-        public Page<UserInfo> test4(UserInfo userInfo, PageInfo pageInfo) { 
-        	Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
-        	Page<UserInfo> uInfo = userInfoService.findByAuto(userInfo, pageable);
-            return uInfo;
-        }
-        
         
 } 

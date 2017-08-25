@@ -91,8 +91,11 @@ public class MySpecs {
 						}else if (Collection.class.isAssignableFrom(innerAttr.getJavaType()) ) {
 							//多对多
 							if (((Collection)innerAttrValue).size()>0) {
+								Object objectInCollection = ((List)innerAttrValue).get(0);
+								Class clazzInCollection = object.getClass();
+								addPredicate(predicates, clazzInCollection, objectInCollection, attr, root, query, cb);
 								System.out.println("数组");
-							}else{
+							}else {
 								System.out.println("空数组");
 								continue;
 							}

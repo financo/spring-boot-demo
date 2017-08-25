@@ -52,7 +52,7 @@ public class OrgTypeApi {
         @RequestMapping(value="/orgType",method = RequestMethod.GET)  
         public Page<OrgType>getAllOrgType(OrgType orgType, PageInfo pageInfo){
             Pageable pageable = PageInfoUtil.retirevePageInfo(pageInfo);
-            return orgTypeService.findAll(pageable);
+            return orgTypeService.findByAuto(orgType, pageable);
         } 
           
         /*

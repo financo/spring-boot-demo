@@ -52,30 +52,4 @@ public class OrgInfoService extends BaseService<OrgInfo, java.lang.Long> impleme
 		return orgInfoRepository.findAll(example,pageable);
 	}
 
-	/*
-	 * 测试findByAuto
-	 */
-	public Page<OrgInfo> findByAuto(OrgInfo orgInfo, Pageable pageable){
-		Page<OrgInfo> cPage= orgInfoRepository.findByAuto(orgInfo, pageable);
-		return cPage;
-	}
-	
-	/*
-	 * 测试findSpecification
-	 */
-	public Page<OrgInfo> findSpecification(final OrgInfo orgInfo, Pageable pageable){
-		return orgInfoRepository.findAll(new Specification<OrgInfo>() {
-			
-			@Override
-			public Predicate toPredicate(Root<OrgInfo> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-				List<Predicate> predicates = new ArrayList<Predicate>();
-				if (null != orgInfo.getOrgType()) {
-					Join<OrgInfo, OrgType> join= root.join("orgType",JoinType.LEFT);
-					predicates.add(cb.like((Path)join.get("orgtypeName"), "%"+orgInfo.getOrgType().getOrgtypeName()+"%"));
-				}
-				Predicate[] p = new Predicate[predicates.size()];  
-                return cb.and(predicates.toArray(p)); 
-			}
-		}, pageable);
-	}
 }
