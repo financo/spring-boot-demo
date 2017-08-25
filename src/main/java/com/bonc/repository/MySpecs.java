@@ -66,6 +66,7 @@ public class MySpecs {
 						}
 					}
 				}
+				query.distinct(true);
 				Predicate[] p = new Predicate[predicates.size()];  
 				return predicates.isEmpty() ? cb.conjunction() : cb.and(predicates.toArray(p));
 			}
