@@ -20,13 +20,10 @@ import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.Email;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import com.bonc.domain.RoleInfo;
 
 @Entity 
 @Table(name = "test_user") 
-@JsonIgnoreProperties()
 public class UserInfo implements Serializable { 
 	
 	private static final long serialVersionUID = 1L;
