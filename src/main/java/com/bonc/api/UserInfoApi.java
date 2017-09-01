@@ -5,11 +5,10 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,8 +28,10 @@ import io.swagger.annotations.ApiOperation;
   
   
 @RestController  
-@RequestMapping("security/api")  
-public class UserInfoApi {  
+@RequestMapping("/api")  
+public class UserInfoApi { 
+	
+		private static final Log logger = LogFactory.getLog(UserInfoApi.class);
   
         @Resource(name="userInfoService")  
         private IUserInfoService userInfoService;

@@ -5,6 +5,8 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -26,8 +28,10 @@ import io.swagger.annotations.ApiOperation;
 
 
 @RestController  
-@RequestMapping("security/api")  
-public class OrgTypeApi {  
+@RequestMapping("/api")  
+public class OrgTypeApi { 
+	
+		private static final Log logger = LogFactory.getLog(OrgTypeApi.class);
   
         @Resource(name="orgTypeService") 
         private IOrgTypeService orgTypeService;  
