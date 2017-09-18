@@ -20,8 +20,6 @@ import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.Email;
 
-import com.bonc.domain.RoleInfo;
-
 @Entity 
 @Table(name = "test_user") 
 public class UserInfo implements Serializable { 

@@ -20,7 +20,7 @@ public class CrossOriginFilter extends OncePerRequestFilter{
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        response.addHeader("Access-Control-Allow-Origin", "http://localhost:3001");  //此优先级高于@CrossOrigin配置
+        response.addHeader("Access-Control-Allow-Origin", "http://localhost:3000");  //此优先级高于@CrossOrigin配置
         System.out.println("Filtering................");
         response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
         response.addHeader("Access-Control-Allow-Headers", "x-requested-with,Content-Type");
